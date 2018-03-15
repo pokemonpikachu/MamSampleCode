@@ -1,0 +1,31 @@
+@model IEnumerable<WebApplication3.Models.sp_view_mvc_Result>
+@{
+    WebGrid grd = new WebGrid(Model);
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+@using (Html.BeginForm())
+{
+   <span>Status</span> 
+<input type="text" name="txtStatus" />
+<input type="submit" value="Search" formaction="Viewbystatus" />
+}
+
+@grd.GetHtml(tableStyle: "table table-bordered",
+
+
+    columns: new[]
+    {
+        grd.Column("leaveid","Leave Id"),
+        grd.Column("stat","Leave status"),
+        grd.Column("reason","Leave reason"),
+        grd.Column(format:@<text>
+@Html.ActionLink("Approve","Approve_Leave",new {lid=item.leaveid})|
+@Html.ActionLink("Remove","Remove_Leave",new {leid=item.leaveid})
+
+</text>)
+
+    }
+)
+
